@@ -1,0 +1,108 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #5d5d5d;
+    overflow: hidden;
+    font-family: "Klee One", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color:antiquewhite;
+}
+
+.hiragana-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 80vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.hiragana {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    white-space: nowrap;
+}
+
+.char {
+    font-size: 13vw;
+    opacity: 0.8;
+    margin: 0 5vw;
+    transition: font-size 0.5s, opacity 0.4s;
+}
+
+.char.active {
+    font-size: 15vw;
+    opacity: 1;
+}
+
+.indicator {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.mouth {
+    color:antiquewhite;
+    opacity: 0.8;
+    font-size: 12vw;
+    transition: color 1s;
+}
+.mouth.move {
+    animation: heartbeat 1s ease-in-out infinite;
+}
+.mouth.active {
+    animation: change-bar 4s infinite  linear;
+}
+
+
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+
+    20% {
+        transform: scale(1.1,0.9);
+    }
+
+    30% {
+        transform: scale(0.9,1.1);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1,0.9);
+    }
+    60% {
+        transform: scale(1);
+    }
+    70% {
+        transform: scale(1.2,0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes change-bar {
+    0% {
+        transform: scale(1) rotateZ(0deg); /* scaleとrotateを1つのtransformにまとめる */
+    }
+
+    40% {
+        transform: scale(1.1, 0.9) rotateZ(288deg); /* scaleとrotateを1つのtransformにまとめる */
+    }
+    100% {
+        transform: scale(1, 1) rotateZ(720deg); /* scaleとrotateを1つのtransformにまとめる */
+    }
+
+    }
