@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ひらがな学習ゲーム</title>
+    <link rel="stylesheet" href="./style2.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
+    </style>
+</head>
+
+<body>
+    <div class="language-buttons">
+        <button class="lang-button active" data-lang="ja">ひらがな</button>
+        <button class="lang-button" data-lang="en">English</button>
+        <button class="lang-button" data-lang="es">Español</button>
+        <button class="lang-button" data-lang="it">Italiano</button>
+        <button class="lang-button" data-lang="fr">Français</button>
+        <button class="lang-button" data-lang="zh">中文</button>
+        <button class="lang-button" data-lang="ko">한국어</button>
+        <button class="lang-button" data-lang="pt">Português</button>
+        <button class="lang-button" data-lang="ru">Русский</button>
+    </div>
+    <div class="hiragana-container">
+        <div class="hiragana" id="hiragana-display"></div>
+    </div>
+    <div class="indicator">
+        <canvas class="pic" id="canvasid"></canvas>
+        
+        <div class="nextButton" id="backButton" style="margin-left: -50vh;"><</div>
+        <div class="mouth">●</div>
+        <div class="nextButton" id="nextButton">></div>
+    </div>
+    <script src="wordlist.js"></script>
+    <script src="hiraganapic.js"></script>
+
+</body>
+
+</html>
