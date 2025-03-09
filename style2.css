@@ -14,32 +14,42 @@ body {
 }
 
 .language-buttons {
-    position: fixed; /* 固定配置 */
-    top: 0; /* 一番上に */
-    left: 0; /* 左端に */
-    width: 100%; /* 幅いっぱいに */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     display: flex;
-    justify-content: center; /* 中央揃え */
-    padding: 10px 0; /* 上下に余白 */
-    background-color: #333;
-    z-index: 100; /* 他の要素より前面に */
-    box-sizing: border-box;/*width指定でpaddingが含まれるように */
+    justify-content: center;
+    padding: 5px 0;
+    /* background-color: #333; */
+    z-index: 100;
+    box-sizing: border-box;
+    flex-wrap: wrap; 
 }
 
 .lang-button {
-    padding: 10px 15px;
-    margin: 0 5px;
+    padding: 8px 12px; 
+    margin: 2px 3px; 
     background-color: #f0f0f0;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px; 
     transition: background-color 0.3s;
 }
 
 .lang-button.active {
     background-color: #a0c49d;
     color: white;
+}
+
+
+@media (max-width: 600px) {
+    .lang-button {
+        font-size: 12px; 
+        padding: 6px 8px;
+        margin: 1px;
+    }
 }
 
 
@@ -125,7 +135,7 @@ body {
     /* align-items: center; */
     /* justify-content: center; */
     height: 30vh;
-    width: 30vw;
+    width: 30vh;
     overflow: hidden;
     margin-top: -40vh;
     

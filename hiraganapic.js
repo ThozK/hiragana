@@ -147,7 +147,8 @@ function speakWord() {
         speech.volume = 1.0;
 
         const voices = speechSynthesis.getVoices();
-        const langVoice = voices.find(voice => voice.lang.startsWith(langCode));
+        const langVoice = voices.find(voice => voice.lang.startsWith(langCode)&& voice.name.includes("Google"));
+
         if (langVoice) {
             speech.voice = langVoice;
         }
