@@ -1,0 +1,177 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #5d5d5d;
+    overflow: hidden;
+    font-family: "Klee One", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color:antiquewhite;
+}
+
+.language-buttons {
+    position: fixed; /* 固定配置 */
+    top: 0; /* 一番上に */
+    left: 0; /* 左端に */
+    width: 100%; /* 幅いっぱいに */
+    display: flex;
+    justify-content: center; /* 中央揃え */
+    padding: 10px 0; /* 上下に余白 */
+    background-color: #333;
+    z-index: 100; /* 他の要素より前面に */
+    box-sizing: border-box;/*width指定でpaddingが含まれるように */
+}
+
+.lang-button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.lang-button.active {
+    background-color: #a0c49d;
+    color: white;
+}
+
+
+.hiragana-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 20vh;
+    overflow: hidden;
+    position: absolute;
+}
+
+.hiragana {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    white-space: nowrap;
+}
+
+.char {
+    font-size: 13vh;
+    opacity: 0.8;
+    /* margin: 0 5vw; */
+    transition: font-size 0.5s, opacity 0.4s;
+}
+
+.char.active {
+    font-size: 15vh;
+    opacity: 1;
+}
+
+.indicator {
+    display: flex;
+    justify-content: center;
+    /* margin-top: 10px; */
+}
+
+.mouth {
+    position:absolute;
+    color:antiquewhite;
+    opacity: 0.8;
+    font-size: 16vh;
+    transition: color 1s;
+    margin-top: 20vh;
+    /* margin-left: -30vh; */
+    /* height: 18vw; */
+}
+.mouth.move {
+    animation: heartbeat 1s ease-in-out infinite;
+}
+.mouth.active {
+    animation: change-bar 4s infinite  linear;
+}
+.mouth.mouseon {
+    color:rgb(188, 169, 144);
+    transition: color 0.5s;
+}
+
+.nextButton {
+    position:absolute;
+    color:antiquewhite;
+    opacity: 0.8;
+    font-size: 16vh;
+    transition: color 1s;
+    margin-top: 17vh;
+    margin-left: 50vh;
+    /* height: 18vw; */
+}
+
+.nextButton.mouseon{
+    animation: heartbeat 3s ease-in-out infinite;
+    color:rgb(188, 169, 144);
+    transition: color 0.5s;
+}
+
+.nextButton.clicked {
+    color:rgb(186, 123, 40);
+    transition: color 0.1s;
+}
+
+.pic {
+    position:absolute;
+    /* align-items: center; */
+    /* justify-content: center; */
+    height: 30vh;
+    width: 30vw;
+    overflow: hidden;
+    margin-top: -40vh;
+    
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+
+    20% {
+        transform: scale(1.1,0.9);
+    }
+
+    30% {
+        transform: scale(0.9,1.1);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1,0.9);
+    }
+    60% {
+        transform: scale(1);
+    }
+    70% {
+        transform: scale(1.2,0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes change-bar {
+    0% {
+        transform: scale(1) rotateZ(0deg); /* scaleとrotateを1つのtransformにまとめる */
+    }
+
+    40% {
+        transform: scale(1.1, 0.9) rotateZ(288deg); /* scaleとrotateを1つのtransformにまとめる */
+    }
+    100% {
+        transform: scale(1, 1) rotateZ(720deg); /* scaleとrotateを1つのtransformにまとめる */
+    }
+
+    }
