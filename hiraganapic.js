@@ -147,7 +147,7 @@ function speakWord() {
         speech.volume = 1.0;
 
         const voices = speechSynthesis.getVoices();
-        const langVoice = voices.find(voice => voice.lang.startsWith(langCode)&& voice.name.includes("Google"));
+        const langVoice = voices.find(voice => voice.lang.startsWith(langCode) && voice.name.includes("Google"));
 
         if (langVoice) {
             speech.voice = langVoice;
@@ -192,7 +192,7 @@ document.querySelectorAll(".lang-button").forEach(button => {
 
 document.addEventListener("keydown", (event) => {
     if (!isLocked) {
-         if (event.key === "ArrowRight") {
+        if (event.key === "ArrowRight") {
             triggerNext();
         } else if (event.key === "ArrowLeft") {
             triggerPrevious();
@@ -293,6 +293,77 @@ function triggerPrevious() {
     }
     updateHiragana();
 }
+
+// スワイプでトリガーを発動するためのコード
+
+// 必要な変数を初期化
+let touchStartX = 0;
+let touchEndX = 0;
+let isSwiping = false;
+const canvas = document.getElementById("mouth");
+let canvasStartX = 0;
+let isDragging = false;
+
+
+// タッチ開始時のイベントリスナー
+document.addEventListener('touchstart', (event) => {
+      if(isLocked) return;
+    touchStartX = event.changedTouches[0].screenX;
+    canvasStartX = canvas.offsetLeft;
+    isSwiping = true;
+    isDragging = true;
+});
+
+// タッチ移動中のイベントリスナー
+document.addEventListener('touchmove', (event) => {
+      if(isLocked) return;
+
+    if (!isSwiping) return; // スワイプ中でない場合は処理をスキップ
+
+    // Canvasを移動
+    if (isDragging) {
+        touchEndX = event.changedTouches[0].screenX;
+        const deltaX = touchEndX - touchStartX;
+        canvas.style.left = (canvasStartX + deltaX) + "px";
+    }
+
+});
+
+// タッチ終了時のイベントリスナー
+document.addEventListener('touchend', (event) => {
+      if(isLocked) return;
+    if (!isSwiping) return; // スワイプ中でない場合は処理をスキップ
+
+    isSwiping = false;
+    isDragging = false;
+    touchEndX = event.changedTouches[0].screenX;
+
+    const swipeDistance = touchEndX - touchStartX;
+    const swipeThreshold = 50; // スワイプとして認識する最小距離（調整可能）
+
+    canvas.style.left = (canvasStartX) + "px";
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        // スワイプの方向を判定
+        if (swipeDistance > 0) {
+            // 右にスワイプ
+            console.log('Swiped Right');
+            triggerPrevious();
+
+        } else {
+            // 左にスワイプ
+            console.log('Swiped Left', touchEndX, touchStartX, swipeDistance);
+            triggerNext();
+        }
+    }
+    //swipeがし終わったらリセット
+    touchStartX = 0;
+    touchStartY = 0;
+    touchEndX = 0;
+    touchEndY = 0;
+});
+
+
 // ランダムな色を生成して、背景色に設定する関数
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -306,8 +377,31 @@ function wincol() {
     document.body.style.backgroundColor = color;
 }
 
+// スマホかどうかを判定する関数
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// ボタンの表示/非表示を切り替える関数
+function toggleButtonsVisibility() {
+    const nextButton = document.getElementById("nextButton");
+    const backButton = document.getElementById("backButton");
+    if (isMobile()) {
+        // スマホの場合、ボタンを非表示にする
+        nextButton.style.display = "none";
+        backButton.style.display = "none";
+    } else {
+        // スマホでない場合、ボタンを表示する
+        nextButton.style.display = "block";
+        backButton.style.display = "block";
+    }
+}
+
 window.addEventListener('load', () => {
     initializeIndices();
     updateHiragana();
     wincol();
+    toggleButtonsVisibility();// 初期化時にボタンの表示/非表示を切り替える
 });
+
+window.addEventListener('resize', toggleButtonsVisibility); // ウィンドウサイズ変更時にボタンの表示/非表示を切り替える

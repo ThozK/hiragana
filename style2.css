@@ -21,7 +21,6 @@ body {
     display: flex;
     justify-content: center;
     padding: 5px 0;
-    /* background-color: #333; */
     z-index: 100;
     box-sizing: border-box;
     flex-wrap: wrap; 
@@ -30,17 +29,18 @@ body {
 .lang-button {
     padding: 8px 12px; 
     margin: 2px 3px; 
-    background-color: #f0f0f0;
+    background-color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px; 
     transition: background-color 0.3s;
+    color: #ffe600;
 }
 
 .lang-button.active {
-    background-color: #a0c49d;
-    color: white;
+    border: #ffe600 1px solid;
+    
 }
 
 
@@ -70,15 +70,24 @@ body {
 }
 
 .char {
-    font-size: 13vh;
+    font-size: 10vw;
     opacity: 0.8;
     /* margin: 0 5vw; */
     transition: font-size 0.5s, opacity 0.4s;
 }
 
 .char.active {
-    font-size: 15vh;
+    font-size: 12vw;
     opacity: 1;
+}
+
+@media screen and (orientation: landscape){
+    .char {
+        font-size: 13vh;
+    }
+    .char.active{
+        font-size: 15vh;
+    }
 }
 
 .indicator {
@@ -93,9 +102,10 @@ body {
     opacity: 0.8;
     font-size: 16vh;
     transition: color 1s;
-    margin-top: 20vh;
+    margin-top: 10vh;
     /* margin-left: -30vh; */
     /* height: 18vw; */
+    cursor: pointer;
 }
 .mouth.move {
     animation: heartbeat 1s ease-in-out infinite;
@@ -114,9 +124,10 @@ body {
     opacity: 0.8;
     font-size: 16vh;
     transition: color 1s;
-    margin-top: 17vh;
+    margin-top: 7vh;
     margin-left: 50vh;
     /* height: 18vw; */
+    cursor: pointer;
 }
 
 .nextButton.mouseon{
