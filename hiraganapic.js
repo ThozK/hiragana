@@ -334,7 +334,7 @@ document.addEventListener('touchmove', (event) => {
         const deltaX = touchEndX - touchStartX;
         touchEndY = event.changedTouches[0].screenY;
         const deltaY = touchEndY - touchStartY;
-        canvas.style.left = (canvasStartX + deltaX/2+deltaY/2) + "px";
+        canvas.style.left = (canvasStartX - deltaX/2 - deltaY/2) + "px";
     }
 
 });
