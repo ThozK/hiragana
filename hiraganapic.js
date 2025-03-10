@@ -97,10 +97,13 @@ function updateHiragana() {
     drawPic(currentIndexInList);
 
     setTimeout(() => {
-        playSound();
+        // playSound();
         const display = document.querySelector(".char");
         display.classList.add("active");
     }, 300);
+    setTimeout(() => {
+        playSound();
+    }, 500);
 
 }
 
