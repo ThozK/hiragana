@@ -302,9 +302,12 @@ function triggerPrevious() {
 // 必要な変数を初期化
 let touchStartX = 0;
 let touchEndX = 0;
+let canvasStartX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+let canvasStartY = 0;
 let isSwiping = false;
 const canvas = document.getElementById("mouth");
-let canvasStartX = 0;
 let isDragging = false;
 
 
@@ -313,6 +316,8 @@ document.addEventListener('touchstart', (event) => {
       if(isLocked) return;
     touchStartX = event.changedTouches[0].screenX;
     canvasStartX = canvas.offsetLeft;
+    touchStartY = event.changedTouches[0].screenY;
+    canvasStartY = canvas.offsetTop;
     isSwiping = true;
     isDragging = true;
 });
@@ -327,7 +332,9 @@ document.addEventListener('touchmove', (event) => {
     if (isDragging) {
         touchEndX = event.changedTouches[0].screenX;
         const deltaX = touchEndX - touchStartX;
-        canvas.style.left = (canvasStartX + deltaX) + "px";
+        touchEndY = event.changedTouches[0].screenY;
+        const deltaY = touchEndY - touchStartY;
+        canvas.style.left = (canvasStartX + deltaX/2+deltaY/2) + "px";
     }
 
 });
@@ -340,8 +347,9 @@ document.addEventListener('touchend', (event) => {
     isSwiping = false;
     isDragging = false;
     touchEndX = event.changedTouches[0].screenX;
+    touchEndY = event.changedTouches[0].screenY;
 
-    const swipeDistance = touchEndX - touchStartX;
+    const swipeDistance = touchEndX - touchStartX + touchEndY - touchStartY;
     const swipeThreshold = 50; // スワイプとして認識する最小距離（調整可能）
 
     canvas.style.left = (canvasStartX) + "px";
