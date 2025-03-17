@@ -307,7 +307,8 @@ let touchStartY = 0;
 let touchEndY = 0;
 let canvasStartY = 0;
 let isSwiping = false;
-const canvas = document.getElementById("mouth");
+const canvas = document.getElementById("canvasid");
+const word = document.getElementById("hiragana-display")
 let isDragging = false;
 
 
@@ -316,8 +317,10 @@ document.addEventListener('touchstart', (event) => {
       if(isLocked) return;
     touchStartX = event.changedTouches[0].screenX;
     canvasStartX = canvas.offsetLeft;
+    wordStartX = word.offsetLeft;
     touchStartY = event.changedTouches[0].screenY;
     canvasStartY = canvas.offsetTop;
+    wordStartY = word.offsetTop;
     isSwiping = true;
     isDragging = true;
 });
@@ -334,7 +337,8 @@ document.addEventListener('touchmove', (event) => {
         const deltaX = touchEndX - touchStartX;
         touchEndY = event.changedTouches[0].screenY;
         const deltaY = touchEndY - touchStartY;
-        canvas.style.left = (canvasStartX - deltaX/2 - deltaY/2) + "px";
+        canvas.style.left = (canvasStartX + deltaX/2 + deltaY/2) + "px";
+        word.style.left = (wordStartX + deltaX/2 + deltaY/2) + "px";
     }
 
 });
@@ -353,6 +357,7 @@ document.addEventListener('touchend', (event) => {
     const swipeThreshold = 50; // スワイプとして認識する最小距離（調整可能）
 
     canvas.style.left = (canvasStartX) + "px";
+    word.style.left = (wordStartX) + "px";
 
     if (Math.abs(swipeDistance) > swipeThreshold) {
         // スワイプの方向を判定

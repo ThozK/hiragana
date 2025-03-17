@@ -13,6 +13,11 @@ body {
     color:antiquewhite;
 }
 
+body, html {
+    overflow: hidden;
+    width: 100vw; /* ビューポート幅に制限 */
+}
+
 .language-buttons {
     position: fixed;
     top: 0;
