@@ -20,7 +20,7 @@ function getRandomIndex() {
     return Math.floor(Math.random() * hiragana.length);
 }
 
-function drawPic(num) {
+function drawPic(num, callback) {
     const canvas = document.getElementById("canvasid");
     const ctx = canvas.getContext("2d");
     const img = new Image();
@@ -56,6 +56,10 @@ function drawPic(num) {
 
         // 変更後のデータを反映
         ctx.putImageData(imageData, 0, 0);
+        // 画像のロードが完了したらcallbackを実行
+        if (typeof callback === 'function') {
+            callback();
+        }
     };
 
     img.src = "./pic/" + english[num] + ".PNG";
@@ -94,8 +98,13 @@ function updateHiragana() {
     current.textContent = currentWord;
 
     display.appendChild(current);
-    drawPic(currentIndexInList);
+    // drawPicのコールバックとしてplaySoundAndMoveMouthを渡す
+    drawPic(currentIndexInList, playSoundAndMoveMouth);
 
+}
+
+// 画像が読み込まれてから実行される関数
+function playSoundAndMoveMouth(){
     setTimeout(() => {
         // playSound();
         const display = document.querySelector(".char");
@@ -104,7 +113,6 @@ function updateHiragana() {
     setTimeout(() => {
         playSound();
     }, 500);
-
 }
 
 function speakWord() {
@@ -257,7 +265,7 @@ function triggerNext() {
     if (index >= shuffledIndices.length) {
         index = 0; // リストの終わりに達したら最初に戻る
     }
-    updateHiragana();
+    changeWordAndPicWithFade(true);
 }
 //backボタン追加
 // const backButton = document.createElement('div');
@@ -294,7 +302,7 @@ function triggerPrevious() {
     if (index < 0) {
         index = shuffledIndices.length - 1; // リストの最初から前に戻ったら最後に移動
     }
-    updateHiragana();
+    changeWordAndPicWithFade(true);
 }
 
 // スワイプでトリガーを発動するためのコード
@@ -310,11 +318,36 @@ let isSwiping = false;
 const canvas = document.getElementById("canvasid");
 const word = document.getElementById("hiragana-display")
 let isDragging = false;
+let swipeDirection = null; // スワイプの方向を保存する変数
 
+// フェードアウト・フェードイン処理を追加
+function changeWordAndPicWithFade(trigger) {
+    const canvas = document.getElementById("canvasid");
+    const word = document.getElementById("hiragana-display");
+    canvas.style.transition = "opacity 0.3s ease-in-out";
+    word.style.transition = "opacity 0.3s ease-in-out";
+    canvas.style.opacity = 0;
+    word.style.opacity = 0;
 
+    setTimeout(() => {
+        updateHiragana();
+        canvas.style.transition = "opacity 0.3s ease-in-out";
+        word.style.transition = "opacity 0.3s ease-in-out";
+        canvas.style.opacity = 1;
+        word.style.opacity = 1;
+        // スワイプによる位置ずれをリセット
+        canvas.style.left = canvasStartX + "px";
+        word.style.left = wordStartX + "px";
+        isLocked = false;
+        if(trigger){
+            playSound();
+        }
+
+    }, 300); // フェードアウトの時間を考慮して少し遅らせる
+}
 // タッチ開始時のイベントリスナー
 document.addEventListener('touchstart', (event) => {
-      if(isLocked) return;
+    if (isLocked) return;
     touchStartX = event.changedTouches[0].screenX;
     canvasStartX = canvas.offsetLeft;
     wordStartX = word.offsetLeft;
@@ -323,11 +356,12 @@ document.addEventListener('touchstart', (event) => {
     wordStartY = word.offsetTop;
     isSwiping = true;
     isDragging = true;
+    swipeDirection = null; // タッチ開始時にリセット
 });
 
 // タッチ移動中のイベントリスナー
 document.addEventListener('touchmove', (event) => {
-      if(isLocked) return;
+    if (isLocked) return;
 
     if (!isSwiping) return; // スワイプ中でない場合は処理をスキップ
 
@@ -337,15 +371,22 @@ document.addEventListener('touchmove', (event) => {
         const deltaX = touchEndX - touchStartX;
         touchEndY = event.changedTouches[0].screenY;
         const deltaY = touchEndY - touchStartY;
-        canvas.style.left = (canvasStartX + deltaX/2 + deltaY/2) + "px";
-        word.style.left = (wordStartX + deltaX/2 + deltaY/2) + "px";
+        canvas.style.left = (canvasStartX + deltaX / 2 + deltaY / 2) + "px";
+        word.style.left = (wordStartX + deltaX / 2 + deltaY / 2) + "px";
+
+        // スワイプの方向を判定
+        if (deltaX > 0) {
+            swipeDirection = 'right';
+        } else if (deltaX < 0) {
+            swipeDirection = 'left';
+        }
     }
 
 });
 
 // タッチ終了時のイベントリスナー
 document.addEventListener('touchend', (event) => {
-      if(isLocked) return;
+    if (isLocked) return;
     if (!isSwiping) return; // スワイプ中でない場合は処理をスキップ
 
     isSwiping = false;
@@ -356,27 +397,37 @@ document.addEventListener('touchend', (event) => {
     const swipeDistance = touchEndX - touchStartX + touchEndY - touchStartY;
     const swipeThreshold = 50; // スワイプとして認識する最小距離（調整可能）
 
-    canvas.style.left = (canvasStartX) + "px";
-    word.style.left = (wordStartX) + "px";
+    // canvas.style.left = (canvasStartX) + "px";
+    // word.style.left = (wordStartX) + "px";
 
     if (Math.abs(swipeDistance) > swipeThreshold) {
-        // スワイプの方向を判定
-        if (swipeDistance > 0) {
-            // 右にスワイプ
+        // スワイプの方向を判定（swipeDirectionを使用）
+        if (swipeDirection === 'right') {
             console.log('Swiped Right');
             triggerPrevious();
-
-        } else {
-            // 左にスワイプ
+        } else if (swipeDirection === 'left') {
             console.log('Swiped Left', touchEndX, touchStartX, swipeDistance);
             triggerNext();
+        } else {
+            changeWordAndPicWithFade(true);
         }
+
+    } else {
+        // スワイプでない場合は元の位置に戻す
+        canvas.style.transition = "left 0.2s ease-out";
+        word.style.transition = "left 0.2s ease-out";
+        canvas.style.left = canvasStartX + "px";
+        word.style.left = wordStartX + "px";
+        canvas.style.transition = "none"; // アニメーションが終わったらリセット
+        word.style.transition = "none";   // アニメーションが終わったらリセット
+        isLocked = false;
     }
     //swipeがし終わったらリセット
     touchStartX = 0;
     touchStartY = 0;
     touchEndX = 0;
     touchEndY = 0;
+    swipeDirection = null; // リセット
 });
 
 
