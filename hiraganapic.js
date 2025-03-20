@@ -102,9 +102,8 @@ function updateHiragana() {
     drawPic(currentIndexInList, () => {
         setTimeout(() => {
             // drawPicが完了した後に実行されるコード
-            const display = document.querySelector(".char");
-            display.classList.add("active");
-            playSound();
+
+            speakWord();
         }, 330);
     });
 }
@@ -159,16 +158,17 @@ function speakWord() {
         }
 
         speechSynthesis.speak(speech);
+        moveMouth();
+        const display = document.querySelector(".char");
+        display.classList.add("active");
     }
 }
 
-function playSound() {
+// function playSound() {
 
-    speakWord();
-    setTimeout(() => {
-        moveMouth();
-    }, 500);
-}
+//     speakWord();
+
+// }
 
 function moveMouth() {
     let mouth = document.querySelectorAll(".mouth");
@@ -227,7 +227,7 @@ document.querySelectorAll(".mouth").forEach(mouth => {
 
 function triggerSpaceAction() {
     isLocked = true;
-    playSound(); // スペースキーの場合、再度発音
+    speakWord(); // スペースキーの場合、再度発音
 }
 
 //nextbuttonクリックイベント
