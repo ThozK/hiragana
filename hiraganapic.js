@@ -105,8 +105,8 @@ function updateHiragana() {
             const display = document.querySelector(".char");
             display.classList.add("active");
             playSound();
-        });
-    }, 500);
+        }, 330);
+    });
 }
 
 function speakWord() {
@@ -165,7 +165,9 @@ function speakWord() {
 function playSound() {
 
     speakWord();
-    moveMouth();
+    setTimeout(() => {
+        moveMouth();
+    }, 500);
 }
 
 function moveMouth() {
