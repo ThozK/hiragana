@@ -10,12 +10,14 @@ body {
     font-family: "Klee One", cursive;
     font-weight: 400;
     font-style: normal;
-    color:antiquewhite;
+    color: antiquewhite;
 }
 
-body, html {
+body,
+html {
     overflow: hidden;
-    width: 100vw; /* ビューポート幅に制限 */
+    width: 100vw;
+    /* ビューポート幅に制限 */
 }
 
 .language-buttons {
@@ -28,30 +30,30 @@ body, html {
     padding: 5px 0;
     z-index: 100;
     box-sizing: border-box;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
 }
 
 .lang-button {
-    padding: 8px 12px; 
-    margin: 2px 3px; 
+    padding: 8px 12px;
+    margin: 2px 3px;
     background-color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px; 
+    font-size: 14px;
     transition: background-color 0.3s;
     color: #ffe600;
 }
 
 .lang-button.active {
     border: #ffe600 1px solid;
-    
+
 }
 
 
 @media (max-width: 600px) {
     .lang-button {
-        font-size: 12px; 
+        font-size: 12px;
         padding: 6px 8px;
         margin: 1px;
     }
@@ -86,11 +88,12 @@ body, html {
     opacity: 1;
 }
 
-@media screen and (orientation: landscape){
+@media screen and (orientation: landscape) {
     .char {
         font-size: 13vh;
     }
-    .char.active{
+
+    .char.active {
         font-size: 15vh;
     }
 }
@@ -102,8 +105,8 @@ body, html {
 }
 
 .mouth {
-    position:absolute;
-    color:antiquewhite;
+    position: absolute;
+    color: antiquewhite;
     opacity: 0.8;
     font-size: 16vh;
     transition: color 1s;
@@ -112,20 +115,23 @@ body, html {
     /* height: 18vw; */
     cursor: pointer;
 }
+
 .mouth.move {
     animation: heartbeat 1s ease-in-out infinite;
 }
+
 .mouth.active {
-    animation: change-bar 4s infinite  linear;
+    animation: change-bar 4s infinite linear;
 }
+
 .mouth.mouseon {
-    color:rgb(188, 169, 144);
+    color: rgb(188, 169, 144);
     transition: color 0.5s;
 }
 
 .nextButton {
-    position:absolute;
-    color:antiquewhite;
+    position: absolute;
+    color: antiquewhite;
     opacity: 0.8;
     font-size: 16vh;
     transition: color 1s;
@@ -135,26 +141,26 @@ body, html {
     cursor: pointer;
 }
 
-.nextButton.mouseon{
+.nextButton.mouseon {
     animation: heartbeat 3s ease-in-out infinite;
-    color:rgb(188, 169, 144);
+    color: rgb(188, 169, 144);
     transition: color 0.5s;
 }
 
 .nextButton.clicked {
-    color:rgb(186, 123, 40);
+    color: rgb(186, 123, 40);
     transition: color 0.1s;
 }
 
 .pic {
-    position:absolute;
+    position: absolute;
     /* align-items: center; */
     /* justify-content: center; */
     height: 30vh;
     width: 30vh;
     overflow: hidden;
     margin-top: -40vh;
-    
+
 }
 
 @keyframes heartbeat {
@@ -163,11 +169,11 @@ body, html {
     }
 
     20% {
-        transform: scale(1.1,0.9);
+        transform: scale(1.1, 0.9);
     }
 
     30% {
-        transform: scale(0.9,1.1);
+        transform: scale(0.9, 1.1);
     }
 
     40% {
@@ -175,14 +181,17 @@ body, html {
     }
 
     50% {
-        transform: scale(1.1,0.9);
+        transform: scale(1.1, 0.9);
     }
+
     60% {
         transform: scale(1);
     }
+
     70% {
-        transform: scale(1.2,0.8);
+        transform: scale(1.2, 0.8);
     }
+
     100% {
         transform: scale(1);
     }
@@ -190,14 +199,44 @@ body, html {
 
 @keyframes change-bar {
     0% {
-        transform: scale(1) rotateZ(0deg); /* scaleとrotateを1つのtransformにまとめる */
+        transform: scale(1) rotateZ(0deg);
+        /* scaleとrotateを1つのtransformにまとめる */
     }
 
     40% {
-        transform: scale(1.1, 0.9) rotateZ(288deg); /* scaleとrotateを1つのtransformにまとめる */
-    }
-    100% {
-        transform: scale(1, 1) rotateZ(720deg); /* scaleとrotateを1つのtransformにまとめる */
+        transform: scale(1.1, 0.9) rotateZ(288deg);
+        /* scaleとrotateを1つのtransformにまとめる */
     }
 
+    100% {
+        transform: scale(1, 1) rotateZ(720deg);
+        /* scaleとrotateを1つのtransformにまとめる */
     }
+
+}
+
+
+.github-link-container {
+    position: fixed;
+    bottom: 10px;
+    /* 下からのマージン */
+    right: 10px;
+    /* 右からのマージン */
+    text-align: right;
+    z-index: 100;
+    /* 他の要素より前面に表示 */
+}
+
+.github-link-container a {
+    color: antiquewhite;
+    /* リンクの色をantiquewhiteに設定 */
+    text-decoration: none;
+    /* リンクの下線を削除 */
+    font-size: 12px;
+    /* リンクの文字サイズを調整 */
+    opacity: 0.7;
+}
+
+.github-link-container a:hover {
+    opacity: 1;
+}
