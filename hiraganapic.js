@@ -100,11 +100,13 @@ function updateHiragana() {
     display.appendChild(current);
     // drawPicの完了後に実行する処理をコールバック関数として渡す
     drawPic(currentIndexInList, () => {
-        // drawPicが完了した後に実行されるコード
-        const display = document.querySelector(".char");
-        display.classList.add("active");
-        playSound();
-    });
+        setTimeout(() => {
+            // drawPicが完了した後に実行されるコード
+            const display = document.querySelector(".char");
+            display.classList.add("active");
+            playSound();
+        });
+    }, 500);
 }
 
 function speakWord() {
