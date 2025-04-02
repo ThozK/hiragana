@@ -307,7 +307,7 @@ let isDragging = false;
 
 // タッチ開始時のイベントリスナー
 document.addEventListener('touchstart', (event) => {
-    if (isLocked) return;
+    if (isLocked || isGalleryOpen) return; // ギャラリーが開いている場合はスワイプを無効化
     touchStartX = event.changedTouches[0].screenX;
     canvasStartX = canvas.offsetLeft;
     wordStartX = word.offsetLeft;
@@ -320,7 +320,7 @@ document.addEventListener('touchstart', (event) => {
 
 // タッチ移動中のイベントリスナー
 document.addEventListener('touchmove', (event) => {
-    if (isLocked) return;
+    if (isLocked || isGalleryOpen) return; // ギャラリーが開いている場合はスワイプを無効化
 
     if (!isSwiping) return; // スワイプ中でない場合は処理をスキップ
 
@@ -338,7 +338,7 @@ document.addEventListener('touchmove', (event) => {
 
 // タッチ終了時のイベントリスナー
 document.addEventListener('touchend', (event) => {
-    if (isLocked) return;
+    if (isLocked || isGalleryOpen) return; // ギャラリーが開いている場合はスワイプを無効化
     if (!isSwiping) return; // スワイプ中でない場合は処理をスキップ
 
     isSwiping = false;
