@@ -2,7 +2,7 @@ let isLocked = false;
 let index = 0; // インデックスを0で初期化
 let currentLang = "ja"; // 初期言語は日本語
 let shuffledIndices = []; // シャッフルされたインデックスの配列
-
+let isGalleryOpen = false; // ギャラリーが開いているかどうかを追跡する変数
 
 // 初期化関数
 function initializeIndices() {
@@ -164,12 +164,6 @@ function speakWord() {
     }
 }
 
-// function playSound() {
-
-//     speakWord();
-
-// }
-
 function moveMouth() {
     let mouth = document.querySelectorAll(".mouth");
 
@@ -264,11 +258,6 @@ function triggerNext() {
     updateHiragana();
 }
 //backボタン追加
-// const backButton = document.createElement('div');
-// backButton.textContent = '<'; // テキストを "<" に設定
-// backButton.classList.add('nextButton');
-// backButton.style.marginLeft="-50vh";
-// document.querySelector('.indicator').appendChild(backButton);
 backButton = document.getElementById('backButton');
 backButton.addEventListener('click', () => {
     if (!isLocked) {
@@ -417,11 +406,99 @@ function toggleButtonsVisibility() {
     }
 }
 
+function toggleGallery() {
+    const gallery = document.getElementById("imageGallery");
+    if (isGalleryOpen) {
+        gallery.style.display = "none";
+        isGalleryOpen = false;
+        // ギャラリーが閉じられたら、オーバーレイを削除
+        removeOverlay();
+    } else {
+        gallery.style.display = "grid";
+        isGalleryOpen = true;
+        // ギャラリーが開かれたら、オーバーレイを追加
+        addOverlay();
+    }
+}
+
+// オーバーレイを追加する関数
+function addOverlay() {
+    const overlay = document.createElement("div");
+    overlay.id = "overlay";
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // 半透明の黒
+    overlay.style.zIndex = "99"; // ギャラリーより手前に表示
+    document.body.appendChild(overlay);
+
+    // オーバーレイをクリックしたらギャラリーを閉じる
+    overlay.addEventListener("click", toggleGallery);
+}
+
+// オーバーレイを削除する関数
+function removeOverlay() {
+    const overlay = document.getElementById("overlay");
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+// ギャラリーボタンの作成とイベントリスナーの設定
+function createGalleryButton() {
+    const galleryButton = document.createElement("button");
+    galleryButton.id = "galleryButton";
+    galleryButton.textContent = "+ all +";
+    galleryButton.addEventListener("click", toggleGallery);
+    document.body.appendChild(galleryButton);
+}
+
+// ギャラリーの画像を表示する関数
+function displayGalleryImages() {
+    const gallery = document.getElementById("imageGallery");
+    gallery.innerHTML = ""; // 既存の画像をクリア
+
+    for (let i = 0; i < english.length; i++) {
+        const imgContainer = document.createElement("div");
+        imgContainer.classList.add("gallery-item");
+
+        const img = document.createElement("img");
+        img.src = "./pic_small2/" + english[i] + ".PNG"; // 小さい画像を参照
+        img.alt = english[i];
+        img.dataset.index = i; // インデックスをデータ属性として保存
+
+        img.addEventListener("click", (event) => {
+            const selectedIndex = parseInt(event.target.dataset.index);
+            index = shuffledIndices.indexOf(selectedIndex);
+            updateHiragana();
+            toggleGallery(); // ギャラリーを閉じる
+        });
+
+        imgContainer.appendChild(img);
+        gallery.appendChild(imgContainer);
+    }
+}
+
+// ギャラリーのコンテナを作成
+function createGalleryContainer() {
+    const galleryContainer = document.createElement("div");
+    galleryContainer.id = "imageGallery";
+    galleryContainer.style.display = "none"; // 初期状態では非表示
+    document.body.appendChild(galleryContainer);
+}
+
 window.addEventListener('load', () => {
     initializeIndices();
     updateHiragana();
     wincol();
     toggleButtonsVisibility();// 初期化時にボタンの表示/非表示を切り替える
+    createGalleryContainer();
+    displayGalleryImages();
+    createGalleryButton();
 });
+
+
 
 window.addEventListener('resize', toggleButtonsVisibility); // ウィンドウサイズ変更時にボタンの表示/非表示を切り替える
